@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { categoryOrder } from '~~/config/laws.config'
+import { categoryOrder, laws as lawConfig } from '~~/config/laws.config'
 import { shouldFocusSearch } from '~/composables/useSearchFocus'
 
 interface LawItem {
@@ -31,13 +31,21 @@ const { data: allLaws } = await useAsyncData('sidebar-laws', () => {
 
 const laws = computed<LawItem[]>(() => (allLaws.value ?? []) as unknown as LawItem[])
 
-// 依 categoryOrder 排序，未列入的排在最後
+// 依 categoryOrder 排序分類，分類內依 laws.config.ts 的順序排列
 const grouped = computed(() => {
+  // 建立 pcode → 順位對照表
+  const pcodeRank = new Map(lawConfig.map((l, i) => [l.pcode, i]))
+
   const map = new Map<string, LawItem[]>()
   for (const law of laws.value) {
     const cat = law.customCategory
     if (!map.has(cat)) map.set(cat, [])
     map.get(cat)!.push(law)
+  }
+
+  // 各分類內的法規依 config 順序排列
+  for (const [, items] of map) {
+    items.sort((a, b) => (pcodeRank.get(a.pcode) ?? 999) - (pcodeRank.get(b.pcode) ?? 999))
   }
 
   const ordered: string[] = []

@@ -176,7 +176,9 @@ async function fetchAllLaws(): Promise<Map<string, RawLaw>> {
     console.log('  🗜️ 偵測到 ZIP 格式，開始解壓縮 …')
     const jsonText = extractJsonFromZip(buf)
     console.log(`  ✅ JSON 解壓完成，${jsonText.length} 字元`)
-    raw = JSON.parse(jsonText) as RawLawsRoot
+    // 去除 UTF-8 BOM（﻿），JSON.parse 不接受
+    const clean = jsonText.startsWith('﻿') ? jsonText.slice(1) : jsonText
+    raw = JSON.parse(clean) as RawLawsRoot
   } else {
     console.log('  📝 直接解析 JSON …')
     raw = JSON.parse(buf.toString('utf-8')) as RawLawsRoot

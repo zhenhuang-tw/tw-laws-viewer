@@ -24,6 +24,8 @@ export default defineContentConfig({
         isAbolished: z.boolean().default(false),
         lastSynced: z.string(),
         lastAmended: z.string(),
+        effectiveNote: z.string().optional(),
+        lawUrl: z.string().optional(),
         body: z.array(lawNodeSchema),
       }),
     }),

@@ -23,6 +23,8 @@ interface LawContent {
   isAbolished: boolean
   lastSynced: string
   lastAmended: string
+  effectiveNote?: string
+  lawUrl?: string
   body: LawNode[]
 }
 
@@ -61,7 +63,7 @@ const API_URL = 'https://law.moj.gov.tw/api/ch/law/json'
 interface RawArticle {
   ArticleType: 'C' | 'A'
   ArticleNo?: string
-  ArticleContent: string 
+  ArticleContent: string
 }
 
 interface RawLaw {
@@ -71,6 +73,7 @@ interface RawLaw {
   LawCategory: string
   LawModifiedDate: string
   LawAbandonNote?: string
+  LawEffectiveNote?: string
   LawArticles: { Article: RawArticle[] } | RawArticle[]
 }
 
@@ -200,6 +203,8 @@ function mapRawToLawContent(raw: RawLaw, entry: LawEntry): LawContent {
     isAbolished: !!(raw.LawAbandonNote && raw.LawAbandonNote.trim().length > 0),
     lastSynced: new Date().toISOString().split('T')[0]!,
     lastAmended: formatDateISO(raw.LawModifiedDate.trim()),
+    effectiveNote: raw.LawEffectiveNote?.trim() || undefined,
+    lawUrl: raw.LawURL?.trim() || undefined,
     body: buildBody(articles),
   }
 }

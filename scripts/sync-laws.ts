@@ -435,8 +435,17 @@ async function main() {
       const rawDate = formatDateISO(raw.LawModifiedDate.trim())
 
       if (existing && existing.lastAmended === rawDate) {
-        console.log(`  ${entry.pcode}  - ${raw.LawName.trim()}（無變動，跳過）`)
-        stats.skipped++
+        if (existing.customCategory !== entry.customCategory) {
+          existing.customCategory = entry.customCategory
+          writeContent(existing)
+          console.log(
+            `  ${entry.pcode}  △ ${raw.LawName.trim()}（customCategory 更新為「${entry.customCategory}」）`,
+          )
+          stats.updated++
+        } else {
+          console.log(`  ${entry.pcode}  - ${raw.LawName.trim()}（無變動，跳過）`)
+          stats.skipped++
+        }
         continue
       }
 

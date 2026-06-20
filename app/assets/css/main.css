@@ -462,16 +462,17 @@ p.law-mu {
   align-items: center;
   gap: 0.3rem;
   padding: 0.3rem 0.5rem;
-  border: 1px solid var(--pico-muted-border-color, #ccc);
+  border: 1px solid var(--pico-primary, #0066cc);
   border-radius: 4px;
-  background: none;
+  background: transparent;
   cursor: pointer;
   font-size: 0.82rem;
-  color: var(--pico-color, #333);
+  color: var(--pico-primary, #0066cc);
+  line-height: 1;
 }
 
 .theme-toggle:hover {
-  background: var(--pico-muted-border-color, #f0f0f0);
+  opacity: 0.75;
 }
 
 /* ── 無資料 / 錯誤提示 ── */

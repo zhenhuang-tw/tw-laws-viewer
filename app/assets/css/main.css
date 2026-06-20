@@ -292,12 +292,64 @@ body {
   margin-right: 0.5rem;
 }
 
-.article-block .article-content {
+.article-block .article-body {
+  display: inline;
   line-height: 1.8;
 }
 
+/* 中/小螢幕：條號與內文換行 */
+@media (max-width: 1099px) {
+  .article-block .article-no {
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+  .article-block .article-body {
+    display: block;
+  }
+}
+
+/* ── 項／款／目 ── */
+
+.article-body {
+  counter-reset: xiang-num;
+  position: relative;
+}
+
+p.law-xiang {
+  margin-left: 2em; /* 稍微加大左側留白，為較遠的編號提供足夠空間 */
+  margin-top: 5px;
+  margin-bottom: 5px;
+  position: relative;
+}
+
+p.law-xiang:not(:only-of-type)::before {
+  counter-increment: xiang-num;
+  content: counter(xiang-num, upper-roman);
+  display: inline-block;
+  position: absolute;
+  right: 100%; /* 將編號右邊界貼齊文字左邊緣 */
+  margin-right: 0.5em; /* 直接控制數字與文字的間距，數值越大離文字越遠 */
+  width: 1.2em;
+  text-align: right; /* 數字靠右對齊，使雙位數向左延伸，保持間距固定 */
+  font-family: 'Times New Roman', serif;
+  color: #777;
+}
+
+p.law-kuan {
+  margin-left: 4em;
+  text-indent: -2em;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+p.law-mu {
+  margin-left: 7em;
+  text-indent: -3em;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
 .chapter-heading {
-  font-size: 1.1rem;
   font-weight: 700;
   margin: 1.5rem 0 0.75rem;
   padding-bottom: 0.25rem;

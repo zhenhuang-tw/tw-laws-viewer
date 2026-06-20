@@ -1,5 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 
+import { laws } from './config/laws.config'
+
 const ASSET_BASE_URL = 'https://assets.zhenhuang.tw/tlv'
 
 export default defineNuxtConfig({
@@ -49,11 +51,13 @@ export default defineNuxtConfig({
     },
   },
 
-  // 若採 nuxt generate 純靜態輸出，Cloudflare Pages 不需要特別設定 preset
+  // 若採純靜態輸出，Cloudflare Pages 不需要特別設定 preset
   nitro: {
     prerender: {
       // 強制預渲染所有路由
       crawlLinks: true,
+      // 從 config 明確列出所有法規路由，確保每頁都被預渲染
+      routes: laws.map((l) => `/law/${l.pcode}`),
     },
   },
 })

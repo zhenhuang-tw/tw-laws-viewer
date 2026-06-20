@@ -3,19 +3,19 @@
   "formatter": "auto",
   "languages": {
     "Vue": {
-      "formatter": "prettier",
+      "formatter": "prettier"
     },
     "TypeScript": {
-      "formatter": "prettier",
+      "formatter": "prettier"
     },
     "JavaScript": {
-      "formatter": "prettier",
+      "formatter": "prettier"
     },
     "HTML": {
-      "formatter": "prettier",
+      "formatter": "prettier"
     },
     "CSS": {
-      "formatter": "prettier",
-    },
-  },
+      "formatter": "prettier"
+    }
+  }
 }

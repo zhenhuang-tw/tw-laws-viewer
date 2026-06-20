@@ -218,6 +218,75 @@ function getIndentLevel(text: string): number {
   return Math.round(match[1].length / 4)
 }
 
+// ── 文字正規化 — 章節/條號格式轉換 ──
+
+/** 中文數字 → 阿拉伯數字（支援 零～九百九十九） */
+function chineseToArabic(text: string): string {
+  const map: Record<string, number> = {
+    零: 0,
+    一: 1,
+    二: 2,
+    三: 3,
+    四: 4,
+    五: 5,
+    六: 6,
+    七: 7,
+    八: 8,
+    九: 9,
+    十: 10,
+    百: 100,
+  }
+
+  let result = 0
+  let current = 0
+
+  for (const char of text) {
+    const val = map[char]
+    if (val === undefined) return text
+    if (val >= 10) {
+      current = (current || 1) * val
+      result += current
+      current = 0
+    } else {
+      current = val
+    }
+  }
+  result += current
+  return String(result)
+}
+
+/**
+ * 正規化章節標題。
+ * "第 一 章 總則"       → "第1章　總則"
+ * "第 五 章 之一 外國公司" → "第5章之1　外國公司"
+ */
+function normalizeHeading(text: string): string {
+  const m = text.match(
+    /^(第\s*[一二三四五六七八九十百零]+\s*(?:編|章|節|款)(?:\s*之\s*[一二三四五六七八九十百零]+)?)\s*(.*)$/,
+  )
+  if (!m) return text
+
+  let id = m[1]!
+  const name = m[2]!
+
+  id = id.replace(/\s+/g, '')
+  id = id.replace(/之([一二三四五六七八九十百零]+)/g, (_, n) => '之' + chineseToArabic(n))
+  id = id.replace(/[一二三四五六七八九十百零]+/g, (s) => chineseToArabic(s))
+
+  return id + '\u3000' + name
+}
+
+/**
+ * 正規化條號。
+ * "第 1 條"   → "第1條"
+ * "第 1-1 條" → "第1條之1"
+ */
+function normalizeArticleNo(no: string): string {
+  let result = no.replace(/\s+/g, '')
+  result = result.replace(/^第(\d+)-(\d+)條$/, '第$1條之$2')
+  return result
+}
+
 // ── 樹狀結構解析 — 將 API 的 flat 條文列表轉為巢狀 body tree ──
 
 /**
@@ -235,7 +304,7 @@ function buildBody(rawArticles: RawArticle[]): LawNode[] {
       const level = getIndentLevel(item.ArticleContent)
       const node: LawNode = {
         type: 'heading',
-        name: item.ArticleContent.trim(),
+        name: normalizeHeading(item.ArticleContent.trim()),
         level,
         children: [],
       }
@@ -257,7 +326,7 @@ function buildBody(rawArticles: RawArticle[]): LawNode[] {
       // ── 條文 ──
       const article: LawNode = {
         type: 'article',
-        no: item.ArticleNo.trim(),
+        no: normalizeArticleNo(item.ArticleNo.trim()),
         content: item.ArticleContent.trim(),
         children: [],
       }

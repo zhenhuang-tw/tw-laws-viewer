@@ -1,0 +1,494 @@
+/* ============================================================
+   雲端法條本 — 全域樣式
+   使用 Pico CSS class-less，此處僅定義佈局與元件專屬樣式
+   ============================================================ */
+
+/* ── CSS 變數 ── */
+
+:root {
+  --col-left: 220px;
+  --col-right: 196px;
+  --header-h: 3.25rem;
+  --mobile-nav-h: 3rem;
+}
+
+/* ── 全站基底 ── */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100dvh;
+  margin: 0;
+}
+
+/* ── 三欄 Grid 佈局 ── */
+
+#app-layout {
+  display: grid;
+  grid-template-columns: var(--col-left) 1fr var(--col-right);
+  grid-template-rows: var(--header-h) 1fr;
+  min-height: 100dvh;
+}
+
+#app-header {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  border-bottom: 1px solid var(--pico-muted-border-color, #ddd);
+  background: var(--pico-background-color, #fff);
+}
+
+#app-header .site-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: inherit;
+}
+
+#sidebar-left {
+  grid-column: 1;
+  grid-row: 2;
+  overflow-y: auto;
+  border-right: 1px solid var(--pico-muted-border-color, #ddd);
+  padding: 0.75rem 0;
+  height: calc(100dvh - var(--header-h));
+  position: sticky;
+  top: var(--header-h);
+}
+
+#main-content {
+  grid-column: 2;
+  grid-row: 2;
+  padding: 1.5rem 1.5rem 3rem;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+#sidebar-right {
+  grid-column: 3;
+  grid-row: 2;
+  overflow-y: auto;
+  border-left: 1px solid var(--pico-muted-border-color, #ddd);
+  padding: 0.75rem 0.5rem;
+  height: calc(100dvh - var(--header-h));
+  position: sticky;
+  top: var(--header-h);
+}
+
+/* ── 底部導覽列（預設隱藏，手機模式顯示） ── */
+
+#mobile-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--mobile-nav-h);
+  border-top: 1px solid var(--pico-muted-border-color, #ddd);
+  background: var(--pico-background-color, #fff);
+  z-index: 200;
+}
+
+#mobile-nav button {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  border: none;
+  background: none;
+  font-size: 0.7rem;
+  color: var(--pico-color, #333);
+  padding: 0.25rem;
+  cursor: pointer;
+}
+
+#mobile-nav button svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* ── Drawer 本體 ── */
+
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 250;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.drawer-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.drawer-pane {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 280px;
+  max-width: 85vw;
+  background: var(--pico-background-color, #fff);
+  z-index: 260;
+  overflow-y: auto;
+  transition: transform 0.25s ease;
+}
+
+.drawer-pane.left {
+  left: 0;
+  transform: translateX(-100%);
+}
+
+.drawer-pane.left.open {
+  transform: translateX(0);
+}
+
+.drawer-pane.right {
+  right: 0;
+  transform: translateX(100%);
+}
+
+.drawer-pane.right.open {
+  transform: translateX(0);
+}
+
+/* ── Accordion（LawSidebar） ── */
+
+.accordion-category {
+  border-bottom: 1px solid var(--pico-muted-border-color, #eee);
+}
+
+.accordion-category > summary {
+  padding: 0.4rem 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+}
+
+.accordion-category > summary::after {
+  content: '▸';
+  font-size: 0.7rem;
+  transition: transform 0.2s ease;
+}
+
+.accordion-category[open] > summary::after {
+  transform: rotate(90deg);
+}
+
+.accordion-category > summary::-webkit-details-marker {
+  display: none;
+}
+
+.accordion-law-link {
+  display: block;
+  padding: 0.3rem 0.75rem 0.3rem 1.5rem;
+  font-size: 0.82rem;
+  text-decoration: none;
+  color: var(--pico-color, #333);
+  border-left: 3px solid transparent;
+  transition: background 0.15s ease;
+}
+
+.accordion-law-link:hover {
+  background: var(--pico-muted-border-color, #f0f0f0);
+}
+
+.accordion-law-link.active {
+  border-left-color: var(--pico-primary, #0066cc);
+  background: var(--pico-primary-background, #e6f0ff);
+  font-weight: 600;
+}
+
+.accordion-law-link.abolished {
+  text-decoration: line-through;
+  opacity: 0.55;
+}
+
+/* ── Sidebar 搜尋框 ── */
+
+.sidebar-search {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  padding: 0.5rem;
+  background: var(--pico-background-color, #fff);
+  border-bottom: 1px solid var(--pico-muted-border-color, #eee);
+}
+
+.sidebar-search input {
+  width: 100%;
+  padding: 0.35rem 0.5rem;
+  font-size: 0.82rem;
+  border: 1px solid var(--pico-muted-border-color, #ccc);
+  border-radius: 4px;
+  background: var(--pico-background-color, #fff);
+  color: var(--pico-color, #333);
+}
+
+/* ── 章節索引（ChapterIndex） ── */
+
+.chapter-index-group {
+  margin-bottom: 0.5rem;
+}
+
+.chapter-index-name {
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.3rem 0.5rem;
+  color: var(--pico-muted-color, #666);
+}
+
+.chapter-index-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 0.3rem 0.5rem 0.2rem;
+  color: var(--pico-color, #333);
+}
+
+.chapter-index-link {
+  display: block;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.78rem;
+  text-decoration: none;
+  color: var(--pico-color, #333);
+  border-radius: 3px;
+  transition: background 0.15s ease;
+}
+
+.chapter-index-link:hover {
+  background: var(--pico-muted-border-color, #f0f0f0);
+}
+
+/* ── 法條內文排版 ── */
+
+.law-header {
+  margin-bottom: 1.5rem;
+}
+
+.law-header h1 {
+  font-size: 1.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.law-header .law-meta {
+  font-size: 0.82rem;
+  color: var(--pico-muted-color, #666);
+}
+
+.law-header .law-meta .badge-abolished {
+  color: #c00;
+  font-weight: 600;
+}
+
+.article-block {
+  margin-bottom: 1rem;
+  scroll-margin-top: calc(var(--header-h) + 0.5rem);
+}
+
+.article-block .article-no {
+  font-weight: 700;
+  margin-right: 0.5rem;
+}
+
+.article-block .article-content {
+  line-height: 1.8;
+}
+
+.chapter-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 1.5rem 0 0.75rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 2px solid var(--pico-muted-border-color, #ddd);
+  scroll-margin-top: calc(var(--header-h) + 0.5rem);
+}
+
+/* ── 半寬模式內嵌 TOC ── */
+
+.inline-toc {
+  display: none;
+  position: sticky;
+  top: var(--header-h);
+  z-index: 5;
+  background: var(--pico-background-color, #fff);
+  border: 1px solid var(--pico-muted-border-color, #ddd);
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.inline-toc > summary {
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.inline-toc-chapter {
+  display: block;
+  padding: 0.25rem 0;
+  font-size: 0.82rem;
+  text-decoration: none;
+  color: var(--pico-primary, #0066cc);
+}
+
+.inline-toc-chapter:hover {
+  text-decoration: underline;
+}
+
+/* ── 條號跳轉輸入 ── */
+
+.article-jump {
+  padding: 0.4rem 0 0.5rem;
+}
+
+.article-jump input {
+  width: 100%;
+  padding: 0.3rem 0.5rem;
+  font-size: 0.82rem;
+  border: 1px solid var(--pico-muted-border-color, #ccc);
+  border-radius: 4px;
+  background: var(--pico-background-color, #fff);
+  color: var(--pico-color, #333);
+}
+
+/* ── 首頁 ── */
+
+.home-intro {
+  font-size: 0.92rem;
+  color: var(--pico-muted-color, #666);
+  line-height: 1.7;
+  margin-bottom: 2rem;
+  max-width: 42rem;
+}
+
+.home-intro a {
+  color: var(--pico-primary, #0066cc);
+}
+
+.home-category {
+  margin-bottom: 2rem;
+}
+
+.home-category h2 {
+  font-size: 1.15rem;
+  border-bottom: 2px solid var(--pico-muted-border-color, #ddd);
+  padding-bottom: 0.3rem;
+  margin-bottom: 0.75rem;
+}
+
+.home-law-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.home-law-list li {
+  margin-bottom: 0.4rem;
+}
+
+.home-law-list a {
+  text-decoration: none;
+  color: var(--pico-primary, #0066cc);
+  font-size: 0.95rem;
+}
+
+.home-law-list a:hover {
+  text-decoration: underline;
+}
+
+.home-law-list .abolished {
+  text-decoration: line-through;
+  color: var(--pico-muted-color, #999);
+}
+
+/* ── 主題切換按鈕 ── */
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid var(--pico-muted-border-color, #ccc);
+  border-radius: 4px;
+  background: none;
+  cursor: pointer;
+  font-size: 0.82rem;
+  color: var(--pico-color, #333);
+}
+
+.theme-toggle:hover {
+  background: var(--pico-muted-border-color, #f0f0f0);
+}
+
+/* ── 無資料 / 錯誤提示 ── */
+
+.empty-state {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: var(--pico-muted-color, #999);
+}
+
+/* ============================================================
+   Responsive Breakpoints
+   ============================================================ */
+
+/* 半寬 550–1099px：雙欄，右欄隱藏 */
+@media (max-width: 1099px) {
+  #app-layout {
+    grid-template-columns: var(--col-left) 1fr;
+  }
+
+  #sidebar-right {
+    display: none;
+  }
+
+  .inline-toc {
+    display: block;
+  }
+}
+
+/* 手機 <550px：單欄，左欄隱藏，底部導覽出現 */
+@media (max-width: 549px) {
+  #app-layout {
+    grid-template-columns: 1fr;
+  }
+
+  #sidebar-left,
+  #sidebar-right {
+    display: none;
+  }
+
+  #main-content {
+    grid-column: 1;
+    padding: 1rem 0.75rem calc(var(--mobile-nav-h) + 1rem);
+  }
+
+  #mobile-nav {
+    display: flex;
+  }
+
+  .drawer-pane {
+    padding-bottom: var(--mobile-nav-h);
+  }
+
+  .law-header h1 {
+    font-size: 1.25rem;
+  }
+}

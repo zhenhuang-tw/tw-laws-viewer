@@ -49,7 +49,7 @@ const grouped = computed(() => {
   <div>
     <h1>雲端法條本</h1>
     <p class="home-intro">
-      這是我個人使用的法條查詢工具，目前只收錄準備國家考試（司法官與律師第二試及行政執行官為主）常用的法律。資料每週日從<a
+      這是個人使用的法條查詢工具，目前只收錄準備我國家考試常用的法律。資料每週日從<a
         href="https://law.moj.gov.tw/"
         target="_blank"
         rel="noopener"

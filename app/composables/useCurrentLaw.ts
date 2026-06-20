@@ -1,6 +1,10 @@
-interface Chapter {
+interface LawNode {
+  type: 'heading' | 'article'
   name?: string
-  articles: { no: string; content: string }[]
+  level?: number
+  no?: string
+  content?: string
+  children: LawNode[]
 }
 
 interface LawData {
@@ -11,9 +15,7 @@ interface LawData {
   isAbolished: boolean
   lastSynced: string
   lastAmended: string
-  chapters: Chapter[]
+  body: LawNode[]
 }
 
-// 用於 layout 內元件之間共享當前法規資料，
-// 避免 ChapterIndex 重複查詢。
 export const currentLaw = ref<LawData | null>(null)

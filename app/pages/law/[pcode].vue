@@ -8,7 +8,6 @@ const { data: law } = await useAsyncData(`law-${pcode.value}`, () =>
   queryCollection('laws').where('pcode', '=', pcode.value).first(),
 )
 
-// 共享給 ChapterIndex
 watchEffect(() => {
   currentLaw.value = (law.value as any) ?? null
 })
@@ -28,7 +27,6 @@ function toChineseDate(iso: string): string {
   return iso
 }
 
-// 條號跳轉
 const jumpNo = ref('')
 function jumpToArticle() {
   const no = parseInt(jumpNo.value, 10)
@@ -38,6 +36,26 @@ function jumpToArticle() {
     target.scrollIntoView({ behavior: 'smooth' })
   }
 }
+
+// ── 遞迴收集所有 heading 節點供 TOC 使用 ──
+function collectHeadings(nodes: any[]): any[] {
+  const result: any[] = []
+  for (const node of nodes) {
+    if (node.type === 'heading' && node.name) {
+      result.push(node)
+    }
+    if (node.children?.length) {
+      result.push(...collectHeadings(node.children))
+    }
+  }
+  return result
+}
+
+function slugify(text: string): string {
+  return text.replace(/\s+/g, '-').replace(/[^\w\u4e00-\u9fff-]/g, '')
+}
+
+const headings = computed(() => collectHeadings((law.value as any)?.body ?? []))
 </script>
 
 <template>
@@ -45,9 +63,9 @@ function jumpToArticle() {
     <header class="law-header">
       <h1>{{ (law as any).name }}</h1>
       <div class="law-meta">
-        <!-- <span>{{ (law as any).lawLevel }}</span> -->
+        <span>{{ (law as any).lawLevel }}</span>
         <span v-if="(law as any).isAbolished" class="badge-abolished">（已廢止）</span>
-        <span>最後異動日期：{{ toChineseDate((law as any).lastAmended) }}</span>
+        <span> · 最後異動日期：{{ toChineseDate((law as any).lastAmended) }}</span>
       </div>
     </header>
 
@@ -64,31 +82,18 @@ function jumpToArticle() {
         />
       </div>
       <a
-        v-for="(chapter, ci) in (law as any).chapters"
-        :key="ci"
-        v-show="chapter.name"
-        :href="`#chapter-${ci}`"
+        v-for="(h, hi) in headings"
+        :key="hi"
+        :href="`#h-${slugify(h.name)}`"
         class="inline-toc-chapter"
+        :style="{ paddingLeft: `${(h.level ?? 0) * 0.6 + 0.25}rem` }"
       >
-        {{ chapter.name }}
+        {{ h.name }}
       </a>
     </details>
 
-    <!-- 條文內容 -->
-    <template v-for="(chapter, ci) in (law as any).chapters" :key="ci">
-      <h2 v-if="chapter.name" :id="`chapter-${ci}`" class="chapter-heading">
-        {{ chapter.name }}
-      </h2>
-      <div
-        v-for="article in chapter.articles"
-        :key="article.no"
-        :id="`article-${article.no}`"
-        class="article-block"
-      >
-        <span class="article-no">{{ article.no }}</span>
-        <span class="article-content">{{ article.content }}</span>
-      </div>
-    </template>
+    <!-- 遞迴渲染 body -->
+    <RecursiveBody :nodes="(law as any).body" />
   </div>
 
   <div v-else class="empty-state">找不到此法規（pcode: {{ pcode }}）</div>

@@ -40,11 +40,14 @@ jobs:
             git config user.email 'github-actions[bot]@users.noreply.github.com'
             git add content/laws/
 
+            EVENT="${{ github.event_name }}"
             REASON="${{ github.event.inputs.reason }}"
             if [ -n "$REASON" ]; then
-              git commit -m "chore(sync): update law data [skip ci]" -m "$REASON"
+              git commit -m "chore(sync): update law data" -m "$REASON"
+            elif [ "$EVENT" = "schedule" ]; then
+              git commit -m "chore(sync): update law data" -m "Scheduled sync"
             else
-              git commit -m "chore(sync): update law data [skip ci]"
+              git commit -m "chore(sync): update law data"
             fi
 
             git push

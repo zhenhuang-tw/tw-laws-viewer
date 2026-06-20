@@ -2,6 +2,7 @@
 import LawSidebar from '~/components/LawSidebar.vue'
 import ChapterIndex from '~/components/ChapterIndex.vue'
 import { shouldFocusSearch } from '~/composables/useSearchFocus'
+import { hasHeadings } from '~/composables/useCurrentLaw'
 
 type Drawer = 'none' | 'search' | 'toc' | 'chapter'
 
@@ -40,6 +41,20 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('resize', checkMobile)
 })
+
+// 底部按鈕清單：無章節時隱藏「章節」鈕
+const navButtons = computed(() =>
+  hasHeadings.value
+    ? [
+        { key: 'toc' as Drawer, icon: '📋', label: '目錄' },
+        { key: 'search' as Drawer, icon: '🔍', label: '搜尋' },
+        { key: 'chapter' as Drawer, icon: '📖', label: '章節' },
+      ]
+    : [
+        { key: 'toc' as Drawer, icon: '📋', label: '目錄' },
+        { key: 'search' as Drawer, icon: '🔍', label: '搜尋' },
+      ],
+)
 </script>
 
 <template>
@@ -58,11 +73,7 @@ onUnmounted(() => {
     "
   >
     <button
-      v-for="btn in [
-        { key: 'toc' as Drawer, label: '目錄' },
-        { key: 'search' as Drawer, label: '搜尋' },
-        { key: 'chapter' as Drawer, label: '章節' },
-      ]"
+      v-for="btn in navButtons"
       :key="btn.key"
       @click="toggleDrawer(btn.key)"
       style="
@@ -79,9 +90,7 @@ onUnmounted(() => {
         padding: 0.25rem;
       "
     >
-      <span style="font-size: 1.2rem">{{
-        btn.key === 'search' ? '🔍' : btn.key === 'toc' ? '📋' : '📖'
-      }}</span>
+      <span style="font-size: 1.2rem">{{ btn.icon }}</span>
       <span>{{ btn.label }}</span>
     </button>
   </div>

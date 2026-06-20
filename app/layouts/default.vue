@@ -3,6 +3,7 @@ import AppHeader from '~/components/AppHeader.vue'
 import LawSidebar from '~/components/LawSidebar.vue'
 import ChapterIndex from '~/components/ChapterIndex.vue'
 import MobileNav from '~/components/MobileNav.vue'
+import { hasHeadings } from '~/composables/useCurrentLaw'
 </script>
 
 <template>
@@ -14,7 +15,7 @@ import MobileNav from '~/components/MobileNav.vue'
     <main id="main-content">
       <slot />
     </main>
-    <aside id="sidebar-right">
+    <aside v-if="hasHeadings" id="sidebar-right">
       <ChapterIndex />
     </aside>
     <MobileNav />

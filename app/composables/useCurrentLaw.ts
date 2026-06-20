@@ -21,3 +21,15 @@ interface LawData {
 }
 
 export const currentLaw = ref<LawData | null>(null)
+
+/** 當前法規是否有章節標題（用於控制右欄/章節按鈕/內嵌 TOC 顯示） */
+export const hasHeadings = computed(() => {
+  function check(nodes: LawNode[]): boolean {
+    for (const node of nodes) {
+      if (node.type === 'heading') return true
+      if (node.children?.length && check(node.children)) return true
+    }
+    return false
+  }
+  return currentLaw.value ? check(currentLaw.value.body) : false
+})

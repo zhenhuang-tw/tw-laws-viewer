@@ -82,7 +82,7 @@ const headings = computed(() => collectHeadings((law.value as any)?.body ?? []))
     </header>
 
     <!-- 半寬模式內嵌摺疊 TOC -->
-    <details class="inline-toc">
+    <details v-if="headings.length" class="inline-toc">
       <summary>章節索引</summary>
       <div class="article-jump">
         <input

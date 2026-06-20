@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { categoryOrder } from '~~/config/laws.config'
+import { shouldFocusSearch } from '~/composables/useSearchFocus'
 
 interface LawItem {
   pcode: string
@@ -12,6 +13,17 @@ const route = useRoute()
 const currentPcode = computed(() => (route.params.pcode as string) || null)
 const searchQuery = ref('')
 const openCategories = ref<Set<string>>(new Set())
+const searchInput = ref<HTMLInputElement | null>(null)
+
+// 由 MobileNav「搜尋」按鈕觸發時自動 focus 搜尋框
+watch(shouldFocusSearch, (val) => {
+  if (val) {
+    nextTick(() => {
+      searchInput.value?.focus()
+      shouldFocusSearch.value = false
+    })
+  }
+})
 
 const { data: allLaws } = await useAsyncData('sidebar-laws', () => {
   return queryCollection('laws').all()
@@ -97,7 +109,13 @@ watch(
 <template>
   <nav>
     <div class="sidebar-search">
-      <input v-model="searchQuery" type="search" placeholder="搜尋法規..." aria-label="搜尋法規" />
+      <input
+        ref="searchInput"
+        v-model="searchQuery"
+        type="search"
+        placeholder="搜尋法規..."
+        aria-label="搜尋法規"
+      />
     </div>
 
     <div v-if="!laws.length" class="empty-state">尚無法規資料</div>
@@ -123,6 +141,10 @@ watch(
 </template>
 
 <style scoped>
+nav {
+  display: block;
+}
+
 .accordion-summary {
   padding: 0.4rem 0.75rem;
   font-size: 0.85rem;

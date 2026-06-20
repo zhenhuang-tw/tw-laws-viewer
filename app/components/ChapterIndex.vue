@@ -38,3 +38,9 @@ function jumpToArticle() {
   </nav>
   <div v-else class="empty-state">請選擇法規</div>
 </template>
+
+<style scoped>
+nav {
+  display: block;
+}
+</style>

@@ -7,17 +7,21 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "sync": "tsx scripts/sync-laws.ts"
   },
   "dependencies": {
     "@nuxt/content": "^3.14.0",
     "@picocss/pico": "^2.1.1",
+    "better-sqlite3": "^12.11.1",
     "fast-xml-parser": "^5.9.2",
     "nuxt": "^4.4.8",
     "vue": "^3.5.35",
     "vue-router": "^5.1.0"
   },
   "devDependencies": {
-    "prettier": "^3.8.4"
+    "@types/node": "^22.0.0",
+    "prettier": "^3.8.4",
+    "tsx": "^4.19.0"
   }
 }

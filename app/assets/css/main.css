@@ -324,7 +324,7 @@ p.law-xiang {
 
 p.law-xiang:not(:only-of-type)::before {
   counter-increment: xiang-num;
-  content: counter(xiang-num, upper-roman);
+  content: counter(xiang-num); /* 若要用羅馬數字: , upper-roman */
   display: inline-block;
   position: absolute;
   right: 100%; /* 將編號右邊界貼齊文字左邊緣 */

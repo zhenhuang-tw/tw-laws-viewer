@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { categoryOrder } from '~~/config/laws.config'
+import { categoryOrder, laws as lawConfig } from '~~/config/laws.config'
 
 interface LawItem {
   pcode: string
@@ -15,11 +15,17 @@ const { data: allLaws } = await useAsyncData('home-laws', () => {
 const laws = computed<LawItem[]>(() => (allLaws.value ?? []) as unknown as LawItem[])
 
 const grouped = computed(() => {
+  const pcodeRank = new Map(lawConfig.map((l, i) => [l.pcode, i]))
+
   const map = new Map<string, LawItem[]>()
   for (const law of laws.value) {
     const cat = law.customCategory
     if (!map.has(cat)) map.set(cat, [])
     map.get(cat)!.push(law)
+  }
+
+  for (const [, items] of map) {
+    items.sort((a, b) => (pcodeRank.get(a.pcode) ?? 999) - (pcodeRank.get(b.pcode) ?? 999))
   }
 
   const ordered: string[] = []

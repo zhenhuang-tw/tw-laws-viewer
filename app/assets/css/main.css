@@ -181,7 +181,7 @@ body {
 
 .accordion-law-link.active {
   border-left-color: var(--pico-primary, #0066cc);
-  background: var(--pico-primary-background, #e6f0ff);
+  color: var(--pico-primary, #0066cc);
   font-weight: 600;
 }
 

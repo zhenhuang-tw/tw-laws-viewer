@@ -66,6 +66,18 @@ const headings = computed(() => collectHeadings((law.value as any)?.body ?? []))
         <span>{{ (law as any).lawLevel }}</span>
         <span v-if="(law as any).isAbolished" class="badge-abolished">（已廢止）</span>
         <span> · 最後異動日期：{{ toChineseDate((law as any).lastAmended) }}</span>
+        <a
+          v-if="(law as any).lawUrl"
+          :href="(law as any).lawUrl"
+          target="_blank"
+          rel="noopener"
+          class="law-source-link"
+        >
+          全國法規資料庫
+        </a>
+      </div>
+      <div v-if="(law as any).effectiveNote" class="law-effective-note">
+        ⚠ {{ (law as any).effectiveNote }}
       </div>
     </header>
 

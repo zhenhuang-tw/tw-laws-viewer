@@ -15,6 +15,8 @@ interface LawData {
   isAbolished: boolean
   lastSynced: string
   lastAmended: string
+  effectiveNote?: string
+  lawUrl?: string
   body: LawNode[]
 }
 

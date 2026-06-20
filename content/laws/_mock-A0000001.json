@@ -7,55 +7,79 @@
   "isAbolished": false,
   "lastSynced": "2026-06-20",
   "lastAmended": "1947-01-01",
-  "chapters": [
+  "body": [
     {
+      "type": "heading",
       "name": "第一章 總綱",
-      "articles": [
+      "level": 0,
+      "children": [
         {
+          "type": "article",
           "no": "第 1 條",
-          "content": "中華民國基於三民主義，為民有民治民享之民主共和國。"
+          "content": "中華民國基於三民主義，為民有民治民享之民主共和國。",
+          "children": []
         },
         {
+          "type": "article",
           "no": "第 2 條",
-          "content": "中華民國之主權屬於國民全體。"
+          "content": "中華民國之主權屬於國民全體。",
+          "children": []
         },
         {
+          "type": "article",
           "no": "第 3 條",
-          "content": "具有中華民國國籍者，為中華民國國民。"
+          "content": "具有中華民國國籍者，為中華民國國民。",
+          "children": []
         },
         {
+          "type": "article",
           "no": "第 4 條",
-          "content": "中華民國領土，依其固有之疆域，非經國民大會之決議，不得變更之。"
+          "content": "中華民國領土，依其固有之疆域，非經國民大會之決議，不得變更之。",
+          "children": []
         }
       ]
     },
     {
+      "type": "heading",
       "name": "第二章 人民之權利義務",
-      "articles": [
+      "level": 0,
+      "children": [
         {
+          "type": "article",
           "no": "第 7 條",
-          "content": "中華民國人民，無分男女、宗教、種族、階級、黨派，在法律上一律平等。"
+          "content": "中華民國人民，無分男女、宗教、種族、階級、黨派，在法律上一律平等。",
+          "children": []
         },
         {
+          "type": "article",
           "no": "第 8 條",
-          "content": "人民身體之自由應予保障。除現行犯之逮捕由法律另定外，非經司法或警察機關依法定程序，不得逮捕拘禁。"
+          "content": "人民身體之自由應予保障。除現行犯之逮捕由法律另定外，非經司法或警察機關依法定程序，不得逮捕拘禁。",
+          "children": []
         },
         {
+          "type": "article",
           "no": "第 9 條",
-          "content": "人民除現役軍人外，不受軍事審判。"
+          "content": "人民除現役軍人外，不受軍事審判。",
+          "children": []
         }
       ]
     },
     {
+      "type": "heading",
       "name": "第三章 國民大會",
-      "articles": [
+      "level": 0,
+      "children": [
         {
+          "type": "article",
           "no": "第 25 條",
-          "content": "國民大會依本憲法之規定，代表全國國民行使政權。"
+          "content": "國民大會依本憲法之規定，代表全國國民行使政權。",
+          "children": []
         },
         {
+          "type": "article",
           "no": "第 26 條",
-          "content": "國民大會以左列代表組織之：一、每縣市及其同等區域各選出代表一人。二、蒙古選出代表。三、西藏選出代表。"
+          "content": "國民大會以左列代表組織之：一、每縣市及其同等區域各選出代表一人。",
+          "children": []
         }
       ]
     }

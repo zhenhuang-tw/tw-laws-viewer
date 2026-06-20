@@ -7,43 +7,106 @@
   "isAbolished": false,
   "lastSynced": "2026-06-20",
   "lastAmended": "2019-06-19",
-  "chapters": [
+  "body": [
     {
+      "type": "heading",
       "name": "第一章 法例",
-      "articles": [
+      "level": 0,
+      "children": [
         {
+          "type": "article",
           "no": "第 1 條",
-          "content": "民事，法律所未規定者，依習慣；無習慣者，依法理。"
+          "content": "民事，法律所未規定者，依習慣；無習慣者，依法理。",
+          "children": []
         },
         {
+          "type": "article",
           "no": "第 2 條",
-          "content": "民事所適用之習慣，以不背於公共秩序或善良風俗者為限。"
+          "content": "民事所適用之習慣，以不背於公共秩序或善良風俗者為限。",
+          "children": []
         }
       ]
     },
     {
+      "type": "heading",
       "name": "第二章 人",
-      "articles": [
+      "level": 0,
+      "children": [
         {
-          "no": "第 6 條",
-          "content": "人之權利能力，始於出生，終於死亡。"
+          "type": "heading",
+          "name": "第一節 自然人",
+          "level": 1,
+          "children": [
+            {
+              "type": "article",
+              "no": "第 6 條",
+              "content": "人之權利能力，始於出生，終於死亡。",
+              "children": []
+            },
+            {
+              "type": "article",
+              "no": "第 7 條",
+              "content": "胎兒以將來非死產者為限，關於其個人利益之保護，視為既已出生。",
+              "children": []
+            }
+          ]
         },
         {
-          "no": "第 7 條",
-          "content": "胎兒以將來非死產者為限，關於其個人利益之保護，視為既已出生。"
-        }
-      ]
-    },
-    {
-      "name": "第三章 物",
-      "articles": [
-        {
-          "no": "第 66 條",
-          "content": "稱不動產者，謂土地及其定著物。不動產之出產物，尚未分離者，為該不動產之部分。"
+          "type": "heading",
+          "name": "第二節 法人",
+          "level": 1,
+          "children": [
+            {
+              "type": "article",
+              "no": "第 25 條",
+              "content": "法人非依本法或其他法律之規定，不得成立。",
+              "children": []
+            },
+            {
+              "type": "article",
+              "no": "第 26 條",
+              "content": "法人於法令限制內，有享受權利負擔義務之能力。",
+              "children": []
+            }
+          ]
         },
         {
-          "no": "第 67 條",
-          "content": "稱動產者，為前條所稱不動產以外之物。"
+          "type": "heading",
+          "name": "第三節 法人",
+          "level": 1,
+          "children": [
+            {
+              "type": "article",
+              "no": "第 25 條",
+              "content": "法人非依本法或其他法律之規定，不得成立。",
+              "children": []
+            },
+            {
+              "type": "article",
+              "no": "第 26 條",
+              "content": "法人於法令限制內，有享受權利負擔義務之能力。",
+              "children": []
+            }
+          ]
+        },
+        {
+          "type": "heading",
+          "name": "第四節 法人",
+          "level": 1,
+          "children": [
+            {
+              "type": "article",
+              "no": "第 25 條",
+              "content": "法人非依本法或其他法律之規定，不得成立。",
+              "children": []
+            },
+            {
+              "type": "article",
+              "no": "第 26 條",
+              "content": "法人於法令限制內，有享受權利負擔義務之能力。",
+              "children": []
+            }
+          ]
         }
       ]
     }

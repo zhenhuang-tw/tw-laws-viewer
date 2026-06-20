@@ -1,14 +1,15 @@
 import { defineContentConfig, defineCollection, z } from '@nuxt/content'
 
-const articleSchema = z.object({
-  no: z.string(),
-  content: z.string(),
-})
-
-const chapterSchema = z.object({
-  name: z.string().optional(),
-  articles: z.array(articleSchema),
-})
+const lawNodeSchema: z.ZodType<any> = z.lazy(() =>
+  z.object({
+    type: z.enum(['heading', 'article']),
+    name: z.string().optional(),
+    level: z.number().optional(),
+    no: z.string().optional(),
+    content: z.string().optional(),
+    children: z.array(lawNodeSchema),
+  }),
+)
 
 export default defineContentConfig({
   collections: {
@@ -23,7 +24,7 @@ export default defineContentConfig({
         isAbolished: z.boolean().default(false),
         lastSynced: z.string(),
         lastAmended: z.string(),
-        chapters: z.array(chapterSchema),
+        body: z.array(lawNodeSchema),
       }),
     }),
   },
